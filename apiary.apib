@@ -1,0 +1,188 @@
+FORMAT: 1A
+HOST: https://52.213.212.231
+
+# Ethplorer
+
+Ethplorer is a simple Ethereum exlorer that looks like Twitter.
+
+## OAuth [/oauth]
+
+### Log out [GET /oauth/logout]
+
+Call this method in order to logout.
+
++ Response 200 (application/json)
+
+
+
+## Basic User Info [/info]
+
++ Request [GET]
+
+    + Headers
+            
+            Authorization: "Bearer GET-TOKEN-FROM-OAUTH-PROVIDER"
+            
++ Response 200 (application/json)
+
+        {
+            "name": "Aleksey Kurylev",
+            
+            "twitter_name": "@kurylev",
+            "twitter_avatar": "https://pbs.twimg.com/profile_images/3477239330/3cf8d4c29e65098d988694e81330fc0d_bigger.png",
+            
+            // number of users that you follow 
+            "following": 201
+        }
+
+
+## Timeline [/statuses/home_timeline]
+
+### Get User Timeline [GET /statuses/home_timeline]
+
++ Parameters
+    + count (number, optional)
+        + Default: 200
+        
+    + max_id (number, optional) - Returns results with an ID less than (that is, older than) or equal to the specified ID.
+
++ Response 200 (application/json)
+
+        [
+            {
+                // message ID
+                "id": 1,
+                
+                "amount_in_wei":12313123,
+                
+                // if true - sent from address to address2
+                // if false - received from address2 to address
+                "sent": true,
+                
+                "address":"0xEA674fdDe714fd979de3EdF0F56AA9716B898ec8",
+                "address2": "0xDb78Bd3Ff668ED4759F92D939cCa14FA926cf3aB",
+                
+                // optional
+                // can get this through GET /addresses/{eth_address} 
+                "address_name": "TheDAO main contract",
+                
+                // optional
+                // can get this through GET /addresses/{eth_address} 
+                "address_avatar": "https://pbs.twimg.com/profile_images/3477239330/3cf8d4c29e65098d988694e81330fc0d_bigger.png"
+            }
+        ]
+
+## Follows Collection [/follows]
+
+### Create new Follow [POST]
+
++ Request (application/json)
+    
+    + Body
+    
+            {
+                // ETH address to follow
+                "address": "0x1E9939DaaAd6924AD004C2560e90804164900341",
+                
+                // optional
+                "name": "My Kraken withdrawal address"
+            }
+        
+    + Headers
+            
+            Authorization: "Bearer GET-TOKEN-FROM-OAUTH-PROVIDER"
+
++ Response 200
+
+### Get all Follows list [GET /follows]
+
++ Request (application/json)
+
+    + Headers
+            
+            Authorization: "Bearer GET-TOKEN-FROM-OAUTH-PROVIDER"
+            
++ Response 200 (application/json)
+
+        [
+            {   
+                "address": "0x1E9939DaaAd6924AD004C2560e90804164900341",
+                
+                // optional
+                "name": "Poloniex Withdrawal address"
+            }
+        ]
+
+### Remove from Follows [DELETE /follows/{eth_address}]
+
++ Request (application/json)
+
+    + Headers
+            
+            Authorization: "Bearer GET-TOKEN-FROM-OAUTH-PROVIDER"
+            
++ Response 200 (application/json)
+
+
+## Adrresses [/addresses]
+
+### Get address info [GET /addresses/{eth_address}]
+
+This method will get address info. If the address is known -> it will return name and avatar. 
+If the address info is unknown -> it will return empty fields.
+
++ Request (application/json)
+    
+    + Headers
+            
+            Authorization: "Bearer GET-TOKEN-FROM-OAUTH-PROVIDER"
+
++ Response 200
+
+        {
+            "name": "TheDAO contract",
+            "avatar": "https://pbs.twimg.com/profile_images/3477239330/3cf8d4c29e65098d988694e81330fc0d_bigger.png"
+        }
+        
+
+   
+## TX Info [/txs]
+
+### Get transactions from address1 to address2 [GET]
+
++ Request (application/json)
+
++ Headers
+        
+        Authorization: "Bearer GET-TOKEN-FROM-OAUTH-PROVIDER"
+
++ Parameters
+
+    + fromAddress (number, optional)
+    
+    + toAddress (number, optional)
+    
+    + timestamp__lte (number, optional)
+    
+    + timestamp__gte (number, optional)
+    
+    + api_key (number)
+        
+        
+        
++ Response 200 (application/json)
+
+        [
+            { 
+                "fromAddress": "0xfbe26da0e985087d28228defbdaa394713b0865f",
+                "toAddress": "0x9471bd0f0b4c3896d6c05398d7d06a38bf2c068a",
+                "input": "0x",
+                "hash": "0x4427e49cad219e6eb36cb79436a4a5c14871734e29e6f3e881d57960b034c9ff",
+                "nonce": 19651,
+                "value": 1075415928000000,
+                "gas": 21000,
+                "gasPrice": 40000000000,
+                "blockNumber": 2360769,
+                "timestamp": 1475330668
+            }
+        ]
