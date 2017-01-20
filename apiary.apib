@@ -15,21 +15,23 @@ Call this method in order to logout.
 
 
 
-## Basic User Info [/info]
+## Basic User Info [/1.0/user_info]
 
 + Request [GET]
 
     + Headers
             
-            Authorization: "Bearer GET-TOKEN-FROM-OAUTH-PROVIDER"
+            sessionid: "Session ID"
             
 + Response 200 (application/json)
 
         {
-            "name": "Aleksey Kurylev",
+            "first_name": "Aleksey",
+            "last_name": "Kurylev"
             
-            "twitter_name": "@kurylev",
-            "twitter_avatar": "https://pbs.twimg.com/profile_images/3477239330/3cf8d4c29e65098d988694e81330fc0d_bigger.png",
+            "twitter_username": "AlexKurylev",
+            
+            "profile_image_url": "http://pbs.twimg.com/profile_images/771255744922394624/ikSvtpF7.jpg",
             
             // number of users that you follow 
             "following": 201
@@ -72,7 +74,7 @@ Call this method in order to logout.
             }
         ]
 
-## Follows Collection [/follows]
+## Follows Collection [/1.0/follows]
 
 ### Create new Follow [POST]
 
@@ -90,17 +92,17 @@ Call this method in order to logout.
         
     + Headers
             
-            Authorization: "Bearer GET-TOKEN-FROM-OAUTH-PROVIDER"
+            sessionid: "Session ID"
 
 + Response 200
 
-### Get all Follows list [GET /follows]
+### Get all Follows list [GET /1.0/follows]
 
 + Request (application/json)
 
     + Headers
             
-            Authorization: "Bearer GET-TOKEN-FROM-OAUTH-PROVIDER"
+            sessionid: "Session ID"
             
 + Response 200 (application/json)
 
@@ -113,20 +115,20 @@ Call this method in order to logout.
             }
         ]
 
-### Remove from Follows [DELETE /follows/{eth_address}]
+### Remove from Follows [DELETE /1.0/follows/{eth_address}]
 
 + Request (application/json)
 
     + Headers
             
-            Authorization: "Bearer GET-TOKEN-FROM-OAUTH-PROVIDER"
+            sessionid: "Session ID"
             
 + Response 200 (application/json)
 
 
-## Adrresses [/addresses]
+## Adrresses [/1.0/addresses]
 
-### Get address info [GET /addresses/{eth_address}]
+### Get address info [GET /1.0/addresses/{eth_address}]
 
 This method will get address info. If the address is known -> it will return name and avatar. 
 If the address info is unknown -> it will return empty fields.
@@ -135,7 +137,7 @@ If the address info is unknown -> it will return empty fields.
     
     + Headers
             
-            Authorization: "Bearer GET-TOKEN-FROM-OAUTH-PROVIDER"
+            sessionid: "Session ID"
 
 + Response 200
 
@@ -146,7 +148,7 @@ If the address info is unknown -> it will return empty fields.
         
 
    
-## TX Info [/txs]
+## TX Info [/1.0/txs]
 
 ### Get transactions from address1 to address2 [GET]
 
@@ -154,7 +156,7 @@ If the address info is unknown -> it will return empty fields.
 
 + Headers
         
-        Authorization: "Bearer GET-TOKEN-FROM-OAUTH-PROVIDER"
+        sessionid: "Session ID"
 
 + Parameters
 
